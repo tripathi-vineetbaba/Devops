@@ -21,4 +21,10 @@
          path : /home/ansible/file/directory/
          state : present
          permissions : x
-
+     - name : Give read/write permission to ansible on /home/user3/user3slave1
+       acl :
+         path : /home/ansible/file/USER3slave1
+         permissions : rw
+         entity : ansible
+         etype : user
+         state : present
