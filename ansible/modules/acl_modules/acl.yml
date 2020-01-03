@@ -1,0 +1,16 @@
+---
+ - name : This is for acl module examples
+   hosts : all
+   become : true
+   become_user : root
+   gather_facts : yes
+   tasks :
+     - name : Grant user ansible read access to file /home/user2/user2slave1
+       acl :
+        entity : ansible
+        etype : user
+        path : /home/ansible/file/USER2slave1
+        permissions : r
+        state : present
+      
+

@@ -1,0 +1,12 @@
+---
+ - name : "This yml is for kernel update"
+   hosts : all
+   become : true
+   become_user : root
+   vars : 
+      kernel_version : "{{ ansible_kernel_version }}"
+   tasks : 
+    -  name : kernel version
+       debug:
+        msg : '{{ ansible_kernel_version }}'
+      

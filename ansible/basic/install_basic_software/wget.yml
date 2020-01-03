@@ -1,0 +1,11 @@
+---
+ - name : This will install wget
+   hosts : all
+   become : true
+   become_user : root
+   gather_facts : yes
+   tasks :
+     - name : Install wget
+       yum : 
+         name=wget
+         state=latest
