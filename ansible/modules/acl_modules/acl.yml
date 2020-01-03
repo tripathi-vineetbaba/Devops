@@ -38,3 +38,20 @@
            state : query
            entity : ansible
            etype : user
+
+     - name : Get ACL details
+       acl : 
+         path : /home/ansible/file/USER3slave1
+       register : output
+
+     - name : Removing ACL permission from the file /home/user3/user3slave1
+       acl :
+         path : /home/ansible/file/USER3slave1
+         entity : ansible
+         etype : user
+         state : absent
+     - name : Get ACL details
+       acl :
+         path : /home/ansible/file/USER3slave1
+       register : output
+
