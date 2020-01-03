@@ -1,0 +1,10 @@
+---
+  - name : "This Ansible Script to patch all servers in hosts file"
+    hosts : all
+    become : true
+    become_user : root
+    tasks :
+     - name : patch system
+       yum : 
+        name="*"
+        state=latest

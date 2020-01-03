@@ -1,0 +1,12 @@
+#This sever is used for patching your cluster using ansible
+
+#   Syntax : 
+#		 ansible-playbook -i hosts patchServers.yml
+#
+#
+#
+#
+#
+#
+#
+#
