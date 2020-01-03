@@ -13,4 +13,12 @@
         permissions : r
         state : present
       
+     - name : Set default ACL for ansible on /home/ansible/file/directory
+       acl : 
+         entity : ansible
+         etype : user
+         default : yes
+         path : /home/ansible/file/directory/
+         state : present
+         permissions : x
 
