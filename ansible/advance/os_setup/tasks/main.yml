@@ -1,0 +1,68 @@
+---
+  - name : This play is for basic installation
+    hosts : all
+    become : true
+    become_method : sudo
+    gather_facts : no
+    tasks :
+       - name : "This task is to install wget"
+         yum : 
+            name : wget
+            state : latest
+       - name : "This is to install httpd"
+         yum :
+            name : httpd
+            state : latest
+       - name : This is to install Nginx
+         yum :
+            name : nginx
+            state : latest
+       - name : "This is to enable httpd"
+         service :
+            name : httpd
+            enabled : yes   
+       - name : This is to install python3
+         yum : 
+            name : python3
+            state : latest
+       - name : "This is to start httpd"
+         service :
+            name : httpd
+            state : restarted
+
+         notify :
+            - Inside Handler
+            - Remove wget
+            - Stop httpd
+            - Remove httpd
+            - Remove Nginx
+            - Remove python3
+       
+       - name : Flush Handlers
+         meta : flush_handlers
+
+    handlers :
+       - name : Inside Handler
+         debug :
+           msg : "This is handler module"
+       - name : Remove wget
+         yum :
+            name : wget
+            state : absent
+       - name : "Stop httpd"
+         service :
+            name : httpd
+            state : stopped
+       - name : "Remove httpd"
+         yum :
+            name : httpd
+            state : absent
+       - name : Remove Nginx
+         yum :
+            name : nginx
+            state : absent
+       - name : Remove python3
+         yum :
+            name : python3
+            state : absent
+
