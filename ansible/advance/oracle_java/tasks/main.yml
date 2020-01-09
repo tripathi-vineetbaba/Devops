@@ -1,0 +1,21 @@
+---
+  - name : Download Java
+    become : true
+    become_method : sudo
+    vars_files :
+          vars/
+
+    pre_tasks :
+        - name : Create Installation Directory
+          file :
+            path : /usr/java/
+            state : directory
+            owner : root
+            group : root
+        - name : Create Staging Directory
+          file : 
+             path : /home/ansible/staging/
+             state : directory
+     
+    tasks :
+              
