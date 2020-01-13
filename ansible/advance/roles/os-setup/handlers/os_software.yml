@@ -1,0 +1,22 @@
+---
+  - name : Install basic OS software
+    become : True
+    become_method : sudo
+    gather_facts : no
+    tasks :
+       - name : Install "{{ item}}"
+         yum : 
+           name : "{{item}}"
+           state : latest
+         with_items :
+           - wget
+           - python3
+       - name : Get Versions
+         command : "{{item}}" --version
+         register : version
+         debug : 
+           - msg : "{{item}} version is : {{version}}"
+         with_items:
+           - wget
+           - python3
+

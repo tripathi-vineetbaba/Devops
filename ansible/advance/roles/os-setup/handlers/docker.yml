@@ -1,0 +1,17 @@
+---
+  - name : Installing Docker
+    remote_user : ansible
+    become : True
+    become_method : sudo
+    gather_facts : no
+    tasks :
+       - name : Install Docker
+         yum :
+            name : docker
+            state : latest
+       - name : Get Versions
+         command : docker --version
+         register : version
+         debug :
+           - msg : Docker version is : "{{version}}"
+

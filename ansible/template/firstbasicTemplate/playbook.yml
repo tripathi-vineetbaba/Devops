@@ -1,0 +1,13 @@
+---
+ - name : Template Module
+   hosts : all
+   become : True
+   become_method : sudo
+   vars : 
+     variable1 : "Hello...!!!"
+     variable2 : "My first playbook using template"
+   tasks :
+      - name : Basic Template Example
+        template :
+          src : example1.j2
+          dest : /home/ansible/output.txt
