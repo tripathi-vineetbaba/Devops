@@ -1,0 +1,19 @@
+---
+  - name : This is third example of template
+    become : True
+    become_method : sudo
+    hosts : all
+    vars:
+      - Fruits : ['Apple', 'Mango', 'Banana', 'Plum']
+      - Vegetables : ['Brinjal', 'Potato', 'Tomatoes', 'Cauliflower', 'Onions']
+      - Cereals : ['Rice', 'Wheat', 'Barley', 'Pulses']
+      - Fastfood : ['Burger', 'Pizza' ]
+    tasks :
+      - template :
+          src : "{{item.src}}"
+          dest : "{{item.dest}}"
+        with_items : 
+         - {src : "fruits.j2", dest : "/home/ansible/fuits.txt"}
+         - {src : "vegetables.j2", dest : "/home/ansible/vegetables.txt"}
+         - {src : "Cereals.j2",dest : "/home/ansible/cereals.txt"}
+         - {src : "Fastfood.j2",dest: "/home/ansible/food.txt"}

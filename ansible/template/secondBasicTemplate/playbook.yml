@@ -1,0 +1,12 @@
+---
+  - name : This is second basic example of template to read a list of variable
+    hosts : all
+    become : True
+    become_method : sudo
+    vars :
+         list1 : ['Apple', 'Mango', 'Banana', 'Grapes', 'Oranges', 'Plum']
+    tasks : 
+       - name : Copy at template2
+         template :
+            src : example2.j2
+            dest : /home/ansible/output2.txt
