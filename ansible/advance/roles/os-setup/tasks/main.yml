@@ -1,0 +1,15 @@
+---
+  - name : This is main file
+    hosts : all
+    gather_facts : no
+    tasks :
+       - name : Apache Installation
+         yum : 
+           name : httpd
+           state : latest
+         notify :
+          - OS Setup
+          - Apache Service Restart
+    
+    
+    

@@ -1,0 +1,57 @@
+---
+ - name : This is for acl module examples
+   hosts : all
+   become : true
+   become_user : root
+   gather_facts : yes
+   tasks :
+
+     - name : Grant user ansible read access to file /home/user2/user2slave1
+       acl :
+        entity : ansible
+        etype : user
+        path : /home/ansible/file/USER2slave1
+        permissions : r
+        state : present
+      
+
+     - name : Set default ACL for ansible on /home/ansible/file/directory
+       acl : 
+         entity : ansible
+         etype : user
+         default : yes
+         path : /home/ansible/file/directory/
+         state : present
+         permissions : x
+
+     - name : Give read/write permission to ansible on /home/user3/user3slave1
+       acl :
+         path : /home/ansible/file/USER3slave1
+         permissions : rw
+         entity : ansible
+         etype : user
+         state : present
+
+     - name : Get current ACL permission on the directory /home/user3/user3slave1/home/user3/user3slave1
+       acl : 
+           path : /home/ansible/file/USER3slave1
+           state : query
+           entity : ansible
+           etype : user
+
+     - name : Get ACL details
+       acl : 
+         path : /home/ansible/file/USER3slave1
+       register : output
+
+     - name : Removing ACL permission from the file /home/user3/user3slave1
+       acl :
+         path : /home/ansible/file/USER3slave1
+         entity : ansible
+         etype : user
+         state : absent
+     - name : Get ACL details
+       acl :
+         path : /home/ansible/file/USER3slave1
+       register : output
+

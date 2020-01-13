@@ -1,0 +1,17 @@
+---
+ - name : This module is to illustrate archive module of ansible
+   hosts : all
+   gather_facts : false
+
+   tasks :
+     - name : This is for archiving somefiles
+       archive :
+          path : /home/ansible/temp
+          dest : /home/ansible/archive/temp.tar
+     - name : This is to create a zip archive
+       archive : 
+          path : /home/ansible/temp/*
+          format : zip
+          dest : /home/ansible/archive/temp.zip
+
+   
