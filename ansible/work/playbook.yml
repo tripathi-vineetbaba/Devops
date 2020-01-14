@@ -1,0 +1,10 @@
+---
+  - name : This playbook is a test playbook to set and retrive value
+    hosts : all
+    vars :
+      os : ubuntu
+    tasks : 
+     - template :
+             src : setValue.j2
+             dest : /home/ansible/value.txt 
+             backup : yes 

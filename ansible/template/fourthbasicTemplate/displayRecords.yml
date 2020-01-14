@@ -1,5 +1,5 @@
 ---
-  - name : Get User Details popped up with template values and recored in a file on remote host
+  - name : Get User Details and Display in template values
     hosts : all
     vars_prompt:
        - name : name
@@ -23,6 +23,5 @@
          confirm : yes
          salt_size : 7    
     tasks :
-     - template :
-          src : userdetails.j2
-          dest : /home/ansible/userdetails.txt
+      - pause :
+          prompt: "{{lookup('template','userdetails.j2')}}"

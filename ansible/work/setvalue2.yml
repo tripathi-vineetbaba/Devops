@@ -1,0 +1,18 @@
+---
+  - name : Setting Value
+    hosts : all
+    vars : 
+     - system :
+         Linux : 1
+         Ubuntu : 2
+         Mac : 3i
+     - another : Linux 
+    tasks :
+      -  include_vars:
+            file : varsf.yml
+            name : service
+
+      -  debug :
+            msg : "Value of Linux is {{item.value}}"
+         when : service == "Linux"
+         loop : "{{ lookup('dict', system) }}"
