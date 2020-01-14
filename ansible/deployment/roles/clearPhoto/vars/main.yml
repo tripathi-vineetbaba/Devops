@@ -1,0 +1,6 @@
+---
+   name : Variables
+   vars :
+       url : "https://www.free-css.com/assets/files/free-css-templates/download/page247/cleanphotography.zip"
+       artifact : "cleanphotography"
+       http_path : "/var/www/html"

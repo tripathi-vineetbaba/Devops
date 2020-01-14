@@ -1,0 +1,10 @@
+---
+  - name : Unzip the artifact
+    unarchive : /home/ansible/temp/"{{artifact}}".zip
+  - name : Copy to /var/www/html
+    copy : 
+       src : /home/ansible/temp/"{{artifact}}"
+       dest : "{{http_path}}"
+       recursive : True
+    notify :
+      - Restart Httpd
