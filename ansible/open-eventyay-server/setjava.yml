@@ -1,0 +1,14 @@
+---
+   - name : "Set java and update alternative"
+     hosts : localhost
+     become : True
+     become_method : sudo
+     tasks : 
+       - name : "Install java"
+         apt :
+             name : openjdk-8-jre-headless 
+             state : latest
+       - name : "Update Alternative"
+         alternatives :
+                  name : java
+                  path : /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java

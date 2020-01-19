@@ -1,0 +1,70 @@
+---
+  - name : "Setup Server For Eventyay on Cloud Server"
+    hosts : open_eventYay_server
+    gather_facts : yes
+    vars :
+       requirements : 'requirements.txt'
+       ansible_python_interpreter : /usr/bin/python3
+       user : 'ubuntu'
+    remote_user : "{{user}}"
+    become : True
+    become_method : sudo
+    tasks :
+###############################  Patch Server  ##################################################
+
+      - name : "Patch Repository"
+        apt :
+           name : "*"
+           state : latest
+           #        when : ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+
+##############################  Install postgresql postgresql-contrib  #############################
+
+      - name : "Install postgresql postgresql-contrib and python3.7 "
+        apt :
+          name : "{{item}}"
+          state : latest
+        loop :
+          - postgresql
+          - postgresql-contrib
+          - python3.7
+        when : ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+      - name : "Install python3-pip and python3-wheel "
+        apt :
+          name : "{{item}}"
+          state : latest
+        loop :
+          - python3-pip
+          - python3-wheel
+############################# Copy/create Required files to remote hosts #############################
+
+            #Create/Copy required directory
+      - name : "Copy requirement.txt and directory requirement on remote hosts"
+        copy :
+                  src : "../requirements"
+                  dest : "." 
+                  force : yes
+      - name : "Copy requirement.txt and directory requirement on remote hosts"
+        copy :
+                  src : "../{{requirements}}"
+                  dest : "./requirements.txt"
+                  force : yes
+      - command : "pwd"
+        register : output
+      - debug :
+              msg : "List : {{output.stdout_lines}}"
+
+############################# Installation of Dependencies using pip ##################################
+
+      - name : " Update dependencies using pip "
+        pip :
+           name : setuptools
+           state : latest
+           executable : pip3
+      - name : " Install dependencies using pip "
+        pip :
+          requirements : "prod.txt"
+          state : latest
+          executable : pip3
+
+
