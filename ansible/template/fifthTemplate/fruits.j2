@@ -1,0 +1,17 @@
+This template is for fuits.
+
+This is the first line - I eat "{{Fruits}}"
+
+############################################################################################
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+#data_dires
+{% for fruit in Fruits %}
+{% if fruit == "Apple" %}
+  I dont like "{{fruit}}"
+{% elif fruit != "Banana" and fruit != "Kuchnai" %}
+  I like "{{ fruit }}"
+{% else %}
+  I have no option except - "{{fruit}}"
+{% endif %}
+{% endfor %}

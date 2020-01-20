@@ -1,0 +1,6 @@
+---
+  - name : Download Package
+    get_url :
+        url : "{{url}"
+        dest : /home/ansible/temp/
+        mode : '0755'

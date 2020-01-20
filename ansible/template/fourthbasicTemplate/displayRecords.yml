@@ -1,0 +1,27 @@
+---
+  - name : Get User Details and Display in template values
+    hosts : all
+    vars_prompt:
+       - name : name
+         prompt : "Enter your name : "
+         private : no
+       - name : address
+         prompt : "Enter your address"
+         private : no
+         unsafe : yes
+       - name : phone
+         prompt : "Enter Numeber : "
+         private : yes
+       - name : office
+         prompt : "Enter office details : "
+         private : no
+       - name : password
+         prompt : "Enter password : "
+         private : yes
+         unsafe : True
+         encrypt : "sha512_crypt"
+         confirm : yes
+         salt_size : 7    
+    tasks :
+      - pause :
+          prompt: "{{lookup('template','userdetails.j2')}}"

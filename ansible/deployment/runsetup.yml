@@ -1,0 +1,5 @@
+---
+  - name : This Setup is to install apache and install clearphotography
+    hosts : all
+    roles :
+       - clearPhoto

@@ -1,0 +1,5 @@
+---
+  - name : This playbook is to install httpd
+    yum : name=http state=latest
+    notify:
+     - Start Httpd
