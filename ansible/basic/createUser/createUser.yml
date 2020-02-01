@@ -1,0 +1,38 @@
+---
+ - name : "Create User on managed nodes"
+   hosts : all
+   vars :
+      user : ansible
+   become : true
+   become_method : sudo
+   tasks : 
+      - name : "Create User {{user}}"
+        user :
+          name : "{{user}}"
+      - name : "Add this user to sudo group"
+        lineinfile :
+           line : "{{user}}  ALL=(ALL) NOPASSWD: ALL" 
+           insertafter : EOF
+           path : /etc/sudoers
+           validate : /usr/sbin/visudo -cf %s
+ - name : "Create User on managed nodes"
+   hosts : all
+   vars :
+      user : ansible
+   become: true
+   become_method: sudo
+   tasks :
+
+      - name : "Create required directory structure"
+        file : 
+           path : "/home/{{user}}/.ssh"
+           mode : 0700
+           owner : "{{user}}"
+           group : "{{user}}"
+           state : directory
+      - name : "Establish passwordless ssh"
+        copy : 
+           src : "/home/{{user}}/.ssh/id_rsa.pub"
+           dest : "/home/{{user}}/.ssh/authorized_keys"
+           owner : "{{user}}"
+           group : "{{user}}"
