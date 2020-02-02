@@ -1,0 +1,51 @@
+---
+ - name: "Patch Kernel Of your infrastructure"
+   hosts : web
+   gather_facts: yes
+   become: true
+   become_method : sudo
+   vars_files :
+      vars/kernel.details
+   tasks :
+     - debug : 
+         msg : "{{item}}"
+       with_items:
+         - "Current Version of kernel Installed : {{ansible_kernel}}"
+         - "Current OS Version : {{ansible_distribution_major_version}}"
+         - "Update Version : {{update_version}}"
+     - name : "Create Temp Directory to Download Kernel"
+       file :
+         path : "/home/{{user}}/kernel_dir"
+         owner : "{{user}}"
+         group : "{{user}}"
+         mode : 0755
+         state: directory
+     - name : "Downloading Kernel"
+       get_url:
+          url : "{{download_link}}"
+          dest : "/home/{{user}}/kernel_dir"
+          mode : 0755
+     - name: "Check if file is downloaded"
+       command : ls -ltr "/home/{{user}}/kernel_dir/{{kernel_rpm}}"
+       register : listing
+     - debug: msg="{{listing.stdout}}"
+     - name: "Create /etc/defaults/grub if it doesnot exist"
+       stat: path=/etc/defaults/grub
+     - copy:
+         src: file/grub
+         dest: /etc/defaults/grub
+         owner: root
+         group: root
+     - name : Installing Kernel
+       yum :
+          name : "/home/{{user}}/kernel_dir/{{kernel_rpm}}"
+          state : present
+     - name: "Updating /etc/defaults/grub file to carry the current kernel"
+       lineinfile:
+          path: /etc/defaults/grub
+          regexp: "^GRUB_DEFAULT"
+          line : "GRUB_DEFAULT=0"
+          state : present
+          create : yes
+     - name : "Creating new bootable kernel"
+       command : grub2-mkconfig -o /boot/grub2/grub.cfg

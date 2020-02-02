@@ -1,0 +1,7 @@
+---
+ - name : "Get kernel version from managed nodes"
+   hosts : all
+   gather_facts : true
+   tasks : 
+     - debug : 
+         msg : "Current version of kernel is {{ansible_kernel}}"
