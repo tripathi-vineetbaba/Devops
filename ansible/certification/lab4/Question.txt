@@ -1,0 +1,49 @@
+########################################################################################################################################################################
+
+1. Create an Ansible configuration that sets up hosts managed1.ansible.com and managed2.ansible.con for automatic installation.
+   Create custom fact for both the hosts and use variables to reallize this.
+   To configure managed1.ansible.com, use host group with name : 'File'
+   To configure managed2ansible.com, use hosts group with name : 'Lamp"
+
+########################################################################################################################################################################
+
+2. Create a file with name custon.fact that defines custom_facts. In this file, define 2 section. The following packages contains following:
+                     smb_package=smb
+                     ftp_package=ftp
+                     db_package=mariadb
+                     web_package=http
+   The section service contains services corresponding to above mentioned packages. Use name smb_packages etc and set the variable to appropiate name of the service.
+
+########################################################################################################################################################################
+
+3. Create a playbook with the name copy_facts.yml that copies these facts to al managed hosts. Define a variable with the name "remote_dir" and another variable with the name "fact_files" and use these. Use file and copy module.
+
+########################################################################################################################################################################
+
+4. Run the playbook and verify if that worked
+
+########################################################################################################################################################################
+
+5. Create a variable inclusion file with the name vars/allvars.yml and set the following variables :
+                     web_root=/var/www/html
+                     ftp_root=/var/ftp
+
+########################################################################################################################################################################
+
+6. Create tasks directory in the project folder. In this dorectory create 2 yaml files.
+   1. That installs, starts and enables LAMP service
+   2. That installs, starts, enables FILE service
+
+########################################################################################################################################################################
+
+7. Create a playbook that sets up lamp server and file servers with the packages they need using inclusion to the previouly defined task files. Also, ensure that it open firewalld firewall to allow access to these servers. Finally, the web service should be provided with index.html file that shows "managed by ansible" on the first line.
+
+########################################################################################################################################################################
+
+8. Run the playbook
+
+########################################################################################################################################################################
+
+9. Use ad-hoc command to verify if services are running fine.
+
+########################################################################################################################################################################
