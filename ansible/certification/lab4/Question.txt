@@ -5,6 +5,8 @@
    To configure managed1.ansible.com, use host group with name : 'File'
    To configure managed2ansible.com, use hosts group with name : 'Lamp"
 
+Solution : inventory
+
 ########################################################################################################################################################################
 
 2. Create a file with name custon.fact that defines custom_facts. In this file, define 2 section. The following packages contains following:
@@ -14,13 +16,20 @@
                      web_package=http
    The section service contains services corresponding to above mentioned packages. Use name smb_packages etc and set the variable to appropiate name of the service.
 
+Solution : custom.fact
+
 ########################################################################################################################################################################
 
 3. Create a playbook with the name copy_facts.yml that copies these facts to al managed hosts. Define a variable with the name "remote_dir" and another variable with the name "fact_files" and use these. Use file and copy module.
 
+Solution : copy_facts.yml
+
 ########################################################################################################################################################################
 
 4. Run the playbook and verify if that worked
+
+Solution : ansible-playbook -i inventory copy_facts.yml
+   After successfull run, verify : ansible -i inventory -m setup -a "filter=ansible_local" all
 
 ########################################################################################################################################################################
 
@@ -28,19 +37,27 @@
                      web_root=/var/www/html
                      ftp_root=/var/ftp
 
+Solution : vars/allvars.yml
+
 ########################################################################################################################################################################
 
 6. Create tasks directory in the project folder. In this dorectory create 2 yaml files.
    1. That installs, starts and enables LAMP service
    2. That installs, starts, enables FILE service
 
+Solution : tasks/file.yml and tasks/lamp.yml
+
 ########################################################################################################################################################################
 
 7. Create a playbook that sets up lamp server and file servers with the packages they need using inclusion to the previouly defined task files. Also, ensure that it open firewalld firewall to allow access to these servers. Finally, the web service should be provided with index.html file that shows "managed by ansible" on the first line.
 
+Solution : playbook.yml
+
 ########################################################################################################################################################################
 
 8. Run the playbook
+
+Solution: ansible-playbook -i inventory playbook.yml
 
 ########################################################################################################################################################################
 

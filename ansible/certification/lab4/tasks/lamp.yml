@@ -1,0 +1,11 @@
+---
+  - name : "This is to setup lamp server"
+    yum: name="{{item}}" state=latest
+    with_items:
+      - "{{ansible_local.custom.packages.db_package}}"  
+      - "{{ansible_local.custom.packages.web_package}}"
+  - name: "Start and Enble Service"
+    service: name="{{item}}" state=started enabled=true
+    with_items:
+      - "{{ansible_local.custom.services.db_service}}"
+      - "{{ansible_local.custom.services.web_service}}"

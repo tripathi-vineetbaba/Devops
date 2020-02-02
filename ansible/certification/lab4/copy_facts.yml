@@ -1,0 +1,11 @@
+---
+  - name : Solution to Q3
+    hosts : all
+    vars : 
+      remote_dir: /etc/ansible/facts.d
+      fact_file : custom.fact
+    become: true
+    become_method: sudo
+    tasks :
+      - file : path="{{remote_dir}}" state=directory recurse=yes
+      - copy : src="{{fact_file}}" dest="{{remote_dir}}/{{fact_file}}"

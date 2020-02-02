@@ -1,0 +1,12 @@
+[all]
+managed1.ansible.com
+managed2.ansible.com
+managed3.ansible.com
+
+[file]
+managed1.ansible.com
+managed2.ansible.com
+
+[lamp]
+managed1.ansible.com
+managed3.ansible.com

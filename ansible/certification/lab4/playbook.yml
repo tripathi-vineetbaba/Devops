@@ -1,0 +1,43 @@
+---
+ - name: "Open Firewall for all servers"
+   hosts: all
+   become: true
+   become_method: sudo
+   vars:
+     firewall: firewalld
+   tasks:
+    - name: "Install {{firewall}}"
+      yum: name="{{firewall}}" state=latest
+    - name: "Start and enable firewall"
+      service: name="{{firewall}}" state=started enabled=true
+
+
+ - name: "Lamp server configuration"
+   hosts: lamp
+   become: true
+   become_method: sudo
+   tasks:
+     - name: "Include all variables"
+       include_vars: vars/allvars.yml
+     - name: "Include lamp tasks"
+       include: tasks/lamp.yml
+     - name: "Open firewall port"
+       firewalld: service=http state=enabled immediate=true permanent=true
+     - name: "Create index.html"
+       copy: content="{{ansible_fqdn}}({{ansible_default_ipv4.address}}) managed by Ansible" dest="{{web_root}}/index.html"
+
+
+ - name: "File Server Configuration"
+   hosts: file
+   become: true
+   become_method: sudo
+   tasks:
+     - name: "Include variables"
+       include_vars: vars/allvars.yml
+     - name: "Include Task"
+       include: tasks/file.yml
+     - name: "Open Port for {{item}} service"
+       firewalld: service="{{item}}" state=enabled immediate=true permanent=true
+       with_items:
+            - samba
+            - ftp
