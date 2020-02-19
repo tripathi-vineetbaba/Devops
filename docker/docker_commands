@@ -1,0 +1,5 @@
+docker build -f dockerfile -t my_file .
+docker run -it my_file
+docker rm $(docker ps -a|awk '{print $1}'|grep -v CONTAINER)
+docker kill 9 $(docker ps -a|awk '{print $1}'|grep -v CONTAINER)
+
