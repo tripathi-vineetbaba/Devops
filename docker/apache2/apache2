@@ -1,0 +1,9 @@
+FROM ubuntu
+RUN apt-get update && \
+    apt-get install -y apache2 && \
+    apt-get install -y vim 
+LABEL maintainer="Vineet Tripathi"
+RUN echo "ServerName apache" >>/etc/apache2/apache2.conf && \
+    service apache2 start
+CMD ["bash"]
+RUN service apache2 restart
