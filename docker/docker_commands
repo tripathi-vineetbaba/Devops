@@ -3,3 +3,59 @@ docker run -it my_file
 docker rm $(docker ps -a|awk '{print $1}'|grep -v CONTAINER)
 docker kill 9 $(docker ps -a|awk '{print $1}'|grep -v CONTAINER)
 
+
+
+
+
+#############################################################################
+#                                                                           #
+#                        DOCKER COMPOSE                                     #
+#                                                                           #
+#                                                                           #
+#############################################################################
+
+curl -L "https://github.com/docker/compose/releases/download/1.25.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+chmod +x /usr/local/bin/docker-compose
+ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+docker-compose --version
+
+
+
+
+#############################################################################
+#                                                                           #
+#                            DOCKER                                         #
+#                                                                           #
+#                                                                           #
+#############################################################################
+
+
+#!/bin/bash
+sudo su -
+yum install -y httpd
+yum install -y git
+systemctl start httpd
+systemctl enable httpd
+echo "This is web-server : $HOSTNAME" >/var/www/html/index.html
+hostnamectl set-hostname web-server
+git clone https://github.com/tripathi-vineetbaba/example-voting-app.git
+dnf install -y https://download.docker.com/linux/centos/7/x86_64/stable/Packages/containerd.io-1.2.6-3.3.el7.x86_64.rpm
+sudo dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo
+sudo dnf repolist -v
+sudo dnf install -y docker-ce
+yum install -y firewalld git
+systemctl disable firewalld
+systemctl enable --now docker
+cd example-voting-app
+cd result/
+docker build -f Dockerfile -t result .
+cd ../worker/
+docker build -f Dockerfile -t worker .
+cd ../vote/
+docker build -f Dockerfile -t vote .
+docker run -d --name redis_database redis
+docker run -d --name postgres_database -e POSTGRES_PASSWORD="postgres" postgres:9.4
+docker run -d --name vote --link redis_database:redis -p 5000:80 vote
+docker run -d --name worker --link redis_database:redis --link postgres_database:db worker
+docker run -d --name result --link postgres_database:db -p 50001:80 result
+

@@ -1,0 +1,27 @@
+redis :
+  image : redis
+
+db : 
+  image : postgres:9.4
+  environment:
+     POSTGRES_PASSWORD : "postgres"
+
+vote :
+  image : vote
+  links :
+    - redis
+  ports :
+    - 5000:80
+  
+worker : 
+  image : worker
+  links :
+    - db
+    - redis
+
+result:
+  image : result
+  links :
+    - db
+  ports : 
+    - 5001:80
