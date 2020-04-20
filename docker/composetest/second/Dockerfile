@@ -1,0 +1,9 @@
+FROM python:3.7-alpine
+WORKDIR /code
+ADD . /code
+RUN apk add --no-cache gcc musl-dev linux-headers && \
+pip install -r requirements.txt
+ENV FLASK_APP app.py
+ENV FLASK_RUN_HOST 0.0.0.0
+CMD ["flask", "run"]
+
